@@ -1,0 +1,44 @@
+import spacy
+
+# Load spaCy's English language model
+nlp = spacy.load("en_core_web_sm")
+
+# Sample responses
+responses = {
+    "greeting": "Hello! How can I assist you today?",
+    "name": "I am a chatbot built using NLP libraries like spaCy and NLTK.",
+    "help": "Sure, I can help with general queries, programming, and learning tips!",
+    "default": "I'm sorry, I didn't understand that. Can you rephrase?"
+}
+
+# Simple keyword-response mapping
+keywords = {
+    "hello": "greeting",
+    "hi": "greeting",
+    "who are you": "name",
+    "help": "help",
+}
+
+# Function to process user input and generate response
+def chatbot_response(user_input):
+    # Preprocess input with spaCy
+    doc = nlp(user_input.lower())
+    tokens = [token.text for token in doc]
+    
+    # Match keywords
+    for word in tokens:
+        if word in keywords:
+            return responses[keywords[word]]
+    
+    return responses["default"]
+
+# Main chat loop
+if _name_ == "_main_":
+    print("Chatbot: Hello! Type 'quit' to exit.")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == "quit":
+            print("Chatbot: Goodbye!")
+            break
+        response = chatbot_response(user_input)
+        print(f"Chatbot: {response}")
